@@ -2,694 +2,122 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#070711">
-
-<title>提卡 · 官方入口</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<title>内核项目提卡</title>
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+min-height:100dvh;background:#02040b;color:#fff;
+font-family:"Microsoft YaHei",sans-serif;
+display:flex;align-items:center;justify-content:center;
+overflow:hidden;
 }
-
-html,
-body {
-    width: 100%;
-    min-height: 100%;
+.loading{
+position:fixed;inset:0;z-index:99;
+background:#02040b;
+display:flex;flex-direction:column;align-items:center;justify-content:center;
+animation:out 1s 3.5s forwards;
 }
-
-body {
-    min-height: 100vh;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    color: #fff;
-
-    font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Segoe UI",
-        "PingFang SC",
-        "Microsoft YaHei",
-        Arial,
-        sans-serif;
-
-    background:
-        radial-gradient(
-            circle at 50% -20%,
-            rgba(124, 92, 255, .25),
-            transparent 45%
-        ),
-        radial-gradient(
-            circle at 0% 100%,
-            rgba(0, 180, 255, .12),
-            transparent 35%
-        ),
-        #070711;
+.core-box{
+width:150px;height:150px;position:relative;
+display:flex;align-items:center;justify-content:center;
 }
-
-/* =========================
-   星空
-========================= */
-
-.stars,
-.stars::before,
-.stars::after {
-    position: absolute;
-    inset: 0;
-    content: "";
-    pointer-events: none;
+.core{
+width:95px;height:95px;border-radius:32px;
+background:linear-gradient(135deg,#b76cff,#267cff);
+display:flex;align-items:center;justify-content:center;
+font-size:32px;font-weight:900;
+box-shadow:0 0 50px #8b5cf6,0 0 100px #2563eb;
+animation:pulse 2s infinite;
 }
-
-.stars {
-    opacity: .45;
-
-    background-image:
-        radial-gradient(circle, rgba(255,255,255,.8) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255,255,255,.5) 1px, transparent 1px);
-
-    background-size:
-        90px 90px,
-        140px 140px;
-
-    background-position:
-        10px 20px,
-        50px 80px;
-
-    animation: starsMove 18s linear infinite;
+.orbit{
+position:absolute;inset:0;border-radius:50%;
+border:1px solid #8b5cf6;
+animation:rotate 4s linear infinite;
 }
-
-@keyframes starsMove {
-    from {
-        transform: translateY(0);
-    }
-
-    to {
-        transform: translateY(-90px);
-    }
+.orbit:before,.orbit:after{
+content:"";position:absolute;width:8px;height:8px;
+border-radius:50%;background:#fff;
+box-shadow:0 0 20px #8b5cf6;
 }
-
-/* =========================
-   光球
-========================= */
-
-.orb {
-    position: absolute;
-    width: 500px;
-    height: 500px;
-
-    border-radius: 50%;
-
-    filter: blur(100px);
-
-    opacity: .18;
-
-    pointer-events: none;
-
-    animation: orbFloat 10s ease-in-out infinite alternate;
+.orbit:before{top:0;left:50%}
+.orbit:after{bottom:0;right:20%}
+.orbit.two{
+inset:-18px;border-color:#2563eb;
+animation-duration:6s;animation-direction:reverse;
 }
-
-.orb.one {
-    background: #7657ff;
-    top: -280px;
-    left: -200px;
+@keyframes rotate{to{transform:rotate(360deg)}}
+@keyframes pulse{50%{transform:scale(1.08)}}
+.loading h1{
+margin-top:35px;font-size:34px;letter-spacing:8px;
 }
-
-.orb.two {
-    background: #00b7ff;
-    right: -260px;
-    bottom: -280px;
-
-    animation-delay: -5s;
+.loading p{margin-top:15px;color:#aaa}
+.bar{
+margin-top:25px;width:230px;height:6px;
+background:#ffffff22;border-radius:20px;overflow:hidden;
 }
-
-@keyframes orbFloat {
-    from {
-        transform: translate(0, 0) scale(1);
-    }
-
-    to {
-        transform: translate(60px, 50px) scale(1.12);
-    }
+.bar span{
+display:block;width:0;height:100%;
+background:linear-gradient(90deg,#b76cff,#267cff);
+animation:load 3s forwards;
 }
+@keyframes load{to{width:100%}}
+@keyframes out{to{opacity:0;visibility:hidden}}
 
-/* =========================
-   主容器
-========================= */
-
-.wrapper {
-    position: relative;
-    z-index: 5;
-
-    width: min(92%, 500px);
-
-    padding: 1px;
-
-    border-radius: 32px;
-
-    background:
-        linear-gradient(
-            135deg,
-            rgba(255,255,255,.28),
-            rgba(255,255,255,.04) 45%,
-            rgba(140,100,255,.25)
-        );
-
-    box-shadow:
-        0 40px 120px rgba(0,0,0,.55);
-
-    animation: appear .9s cubic-bezier(.2,.8,.2,1);
+.bg{position:fixed;inset:0;background:radial-gradient(circle at 50% 20%,#8b5cf655,transparent 35%),linear-gradient(135deg,#02030a,#111827)}
+.card{
+position:relative;z-index:2;width:min(92%,520px);
+padding:40px 25px;border-radius:38px;
+background:#0b1022dd;border:1px solid #ffffff20;
+backdrop-filter:blur(30px);text-align:center;
 }
-
-.card {
-    position: relative;
-
-    padding: 52px 42px 38px;
-
-    border-radius: 31px;
-
-    text-align: center;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(22,22,38,.88),
-            rgba(9,9,19,.92)
-        );
-
-    backdrop-filter: blur(30px);
-    -webkit-backdrop-filter: blur(30px);
-
-    overflow: hidden;
+.logo{
+width:95px;height:95px;margin:auto auto 20px;
+border-radius:32px;background:linear-gradient(135deg,#b76cff,#267cff);
+display:flex;align-items:center;justify-content:center;
+font-size:30px;font-weight:900;
 }
-
-/* 卡片顶部光线 */
-
-.card::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: 15%;
-
-    width: 70%;
-    height: 1px;
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.7),
-            transparent
-        );
-
-    opacity: .5;
+h2{font-size:36px}
+.sub{color:#c4b5fd;margin:15px}
+.desc{line-height:2;color:#fff9;margin-bottom:25px}
+button{
+width:100%;height:62px;border:0;border-radius:22px;
+background:linear-gradient(100deg,#7c3aed,#2563eb);
+color:white;font-size:19px;font-weight:900;
 }
-
-/* 卡片内部光晕 */
-
-.card::after {
-    content: "";
-
-    position: absolute;
-
-    width: 250px;
-    height: 250px;
-
-    top: -170px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    border-radius: 50%;
-
-    background: #775cff;
-
-    filter: blur(100px);
-
-    opacity: .12;
-
-    pointer-events: none;
-}
-
-@keyframes appear {
-    from {
-        opacity: 0;
-        transform: translateY(35px) scale(.96);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* =========================
-   Logo
-========================= */
-
-.logo-box {
-    position: relative;
-
-    width: 92px;
-    height: 92px;
-
-    margin: 0 auto 26px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    border-radius: 28px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #7457ff,
-            #9d5cff 55%,
-            #4e8cff
-        );
-
-    box-shadow:
-        0 18px 50px rgba(115,85,255,.35),
-        inset 0 1px 1px rgba(255,255,255,.45);
-
-    transform: rotate(-3deg);
-
-    transition: .35s ease;
-}
-
-.logo-box:hover {
-    transform: rotate(0deg) scale(1.06);
-}
-
-.logo-box::before {
-    content: "";
-
-    position: absolute;
-    inset: 1px;
-
-    border-radius: 27px;
-
-    border: 1px solid rgba(255,255,255,.25);
-}
-
-.logo {
-    font-size: 30px;
-    font-weight: 900;
-
-    letter-spacing: -3px;
-
-    text-shadow:
-        0 3px 15px rgba(0,0,0,.25);
-
-    transform: rotate(3deg);
-}
-
-/* =========================
-   状态
-========================= */
-
-.status {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-
-    padding: 8px 14px;
-
-    margin-bottom: 22px;
-
-    border-radius: 999px;
-
-    background: rgba(55,220,130,.06);
-
-    border: 1px solid rgba(55,220,130,.16);
-
-    color: rgba(150,255,190,.9);
-
-    font-size: 12px;
-    font-weight: 500;
-}
-
-.status-dot {
-    width: 7px;
-    height: 7px;
-
-    border-radius: 50%;
-
-    background: #4ade80;
-
-    box-shadow:
-        0 0 0 4px rgba(74,222,128,.08),
-        0 0 14px rgba(74,222,128,.8);
-
-    animation: statusPulse 2s ease-in-out infinite;
-}
-
-@keyframes statusPulse {
-    0%,
-    100% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: .35;
-    }
-}
-
-/* =========================
-   标题
-========================= */
-
-.title {
-    font-size: clamp(30px, 7vw, 38px);
-
-    line-height: 1.2;
-
-    font-weight: 850;
-
-    letter-spacing: -1.8px;
-
-    margin-bottom: 14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffffff 20%,
-            #d9d2ff 70%,
-            #a895ff
-        );
-
-    -webkit-background-clip: text;
-    background-clip: text;
-
-    -webkit-text-fill-color: transparent;
-}
-
-.description {
-    color: rgba(255,255,255,.52);
-
-    font-size: 14px;
-
-    line-height: 1.8;
-
-    margin-bottom: 32px;
-}
-
-/* =========================
-   按钮
-========================= */
-
-.shop-button {
-    position: relative;
-
-    width: 100%;
-    height: 60px;
-
-    border: none;
-
-    border-radius: 17px;
-
-    cursor: pointer;
-
-    overflow: hidden;
-
-    color: #fff;
-
-    font-size: 15px;
-    font-weight: 750;
-
-    letter-spacing: .3px;
-
-    background:
-        linear-gradient(
-            110deg,
-            #6752ff,
-            #8959ff 50%,
-            #5f7dff
-        );
-
-    box-shadow:
-        0 14px 35px rgba(102,79,255,.3);
-
-    transition:
-        transform .25s ease,
-        box-shadow .25s ease,
-        filter .25s ease;
-}
-
-.shop-button::before {
-    content: "";
-
-    position: absolute;
-
-    top: 0;
-    left: -100%;
-
-    width: 60%;
-    height: 100%;
-
-    transform: skewX(-20deg);
-
-    background:
-        linear-gradient(
-            90deg,
-            transparent,
-            rgba(255,255,255,.3),
-            transparent
-        );
-
-    transition: left .7s ease;
-}
-
-.shop-button:hover::before {
-    left: 140%;
-}
-
-.shop-button:hover {
-    transform: translateY(-3px);
-
-    box-shadow:
-        0 20px 45px rgba(102,79,255,.45);
-
-    filter: brightness(1.08);
-}
-
-.shop-button:active {
-    transform: translateY(0) scale(.985);
-}
-
-.button-content {
-    position: relative;
-
-    z-index: 2;
-
-    display: flex;
-
-    align-items: center;
-    justify-content: center;
-
-    gap: 10px;
-}
-
-.arrow {
-    font-size: 19px;
-
-    transition:
-        transform .25s ease;
-}
-
-.shop-button:hover .arrow {
-    transform: translateX(5px);
-}
-
-/* =========================
-   地址
-========================= */
-
-.address {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    gap: 7px;
-
-    margin-top: 18px;
-
-    color: rgba(255,255,255,.3);
-
-    font-size: 11px;
-
-    word-break: break-all;
-}
-
-.address-icon {
-    opacity: .7;
-}
-
-/* =========================
-   底部
-========================= */
-
-.footer {
-    margin-top: 30px;
-
-    padding-top: 22px;
-
-    border-top: 1px solid rgba(255,255,255,.06);
-
-    color: rgba(255,255,255,.22);
-
-    font-size: 11px;
-
-    letter-spacing: .3px;
-}
-
-/* =========================
-   手机适配
-========================= */
-
-@media (max-width: 520px) {
-
-    body {
-        padding: 20px;
-    }
-
-    .wrapper {
-        width: 100%;
-        border-radius: 27px;
-    }
-
-    .card {
-        padding: 42px 25px 30px;
-        border-radius: 26px;
-    }
-
-    .logo-box {
-        width: 78px;
-        height: 78px;
-
-        border-radius: 23px;
-
-        margin-bottom: 22px;
-    }
-
-    .logo {
-        font-size: 26px;
-    }
-
-    .description {
-        margin-bottom: 28px;
-    }
-
-    .shop-button {
-        height: 56px;
-    }
-
-    .footer {
-        margin-top: 25px;
-    }
-}
-
-/* 减少动画偏好 */
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        animation-duration: .01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: .01ms !important;
-    }
+.trust{
+margin-top:25px;padding-top:20px;
+border-top:1px solid #fff2;
+color:#ead9b0;line-height:2;font-size:14px;
 }
 </style>
 </head>
-
 <body>
-
-<!-- 背景 -->
-<div class="stars"></div>
-
-<div class="orb one"></div>
-<div class="orb two"></div>
-
-
-<!-- 主卡片 -->
-<div class="wrapper">
-
-    <main class="card">
-
-        <!-- Logo -->
-        <div class="logo-box">
-            <div class="logo">
-                提卡
-            </div>
-        </div>
-
-
-        <!-- 状态 -->
-        <div class="status">
-            <span class="status-dot"></span>
-            官方入口 · 正常运行
-        </div>
-
-
-        <!-- 标题 -->
-        <h1 class="title">
-            欢迎来到提卡
-        </h1>
-
-
-        <p class="description">
-            简洁 · 快速 · 安全<br>
-            点击下方按钮进入官方商城
-        </p>
-
-
-        <!-- 按钮 -->
-        <button
-            class="shop-button"
-            onclick="goShop()"
-            type="button"
-        >
-            <span class="button-content">
-                立即进入商城
-                <span class="arrow">→</span>
-            </span>
-        </button>
-
-
-        <!-- 目标地址 -->
-        <div class="address">
-            <span class="address-icon">↗</span>
-            <span>shop.368fk.cn/shop/AAA</span>
-        </div>
-
-
-        <!-- Footer -->
-        <div class="footer">
-            © 2026 提卡 · All Rights Reserved
-        </div>
-
-    </main>
-
+<div class="loading">
+<div class="core-box">
+<div class="orbit"></div>
+<div class="orbit two"></div>
+<div class="core">内核</div>
 </div>
-
-
-<script>
-function goShop() {
-
-    // 手动点击后跳转
-    window.location.href =
-        "https://shop.368fk.cn/shop/AAA";
-
-}
-</script>
-
+<h1>内核项目</h1>
+<p>正在唤醒核心服务 · 请稍候</p>
+<div class="bar"><span></span></div>
+</div>
+<div class="bg"></div>
+<div class="card">
+<div class="logo">内核</div>
+<h2>内核项目提卡</h2>
+<div class="sub">稳定每一次体验，陪伴每一位玩家</div>
+<div class="desc">精选资源，一键获取<br>安全 · 稳定 · 快速<br>开启更好的服务体验</div>
+<button onclick="location.href='https://shop.368fk.cn/shop/AAA'">立即进入商城 →</button>
+<div class="trust">
+感谢每一位老板的支持与信任<br>
+愿您提卡之后玩得开心，<br>
+体验稳定顺畅。<br>
+我们会持续优化服务，<br>
+陪伴您一路前行。<br><br>
+—— 内核导师
+</div>
+</div>
 </body>
 </html>
-```
